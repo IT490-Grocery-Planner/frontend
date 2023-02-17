@@ -62,8 +62,8 @@ if(isset($user) && $user["logged"] == 1){
 				<input type="hidden" value="register" id="type" name="type" />
 				
 				<div class="input-group mb-3">
-					<input type="text" class="form-control me-2" placeholder="First Name"/>
-					<input type="text" class="form-control" placeholder="Last Name"/>
+					<input type="text" class="form-control me-2" name="fname" placeholder="First Name"/>
+					<input type="text" class="form-control" name="lname" placeholder="Last Name"/>
 				</div>
 				<div class="mb-3">
 					<input name="email" type="email" class="form-control" placeholder="Email Address" id="email">
