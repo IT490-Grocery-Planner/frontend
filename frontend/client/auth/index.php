@@ -1,11 +1,3 @@
-<?php 
-session_start(); 
-$user = $_SESSION["user"];
-if(isset($user) && $user["logged"] == 1){
-    header("Location: ../index.php");
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +7,7 @@ if(isset($user) && $user["logged"] == 1){
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<title>Login Page</title>
+	<title>Authentication</title>
 </head>
 
 <body>
@@ -41,10 +33,8 @@ if(isset($user) && $user["logged"] == 1){
 		
 		<div class="card-body tab-content" id="myTabContent">
 
-			<form id="login_form" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab"
-				action="authenticate.php" method="POST">
+			<form id="login_form" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab" method="POST">
 				<input type="hidden" value="login" id="type" name="type" />
-			
 				<div class="mb-3">
 					<input name="email" type="email" class="form-control" placeholder="Email Address" id="email">
 				</div>
@@ -57,8 +47,7 @@ if(isset($user) && $user["logged"] == 1){
 				</div>
 			</form>
 
-			<form id="reg_form" class="tab-pane fade" role="tabpanel" aria-labelledby="reg-tab" 
-				action="authenticate.php" method="POST">
+			<form id="reg_form" class="tab-pane fade" role="tabpanel" aria-labelledby="reg-tab" method="POST">
 				<input type="hidden" value="register" id="type" name="type" />
 				
 				<div class="input-group mb-3">
@@ -81,8 +70,32 @@ if(isset($user) && $user["logged"] == 1){
 		</div>
 	</div>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js" integrity="sha512-wS6VWtjvRcylhyoArkahZUkzZFeKB7ch/MHukprGSh1XIidNvHG1rxPhyFnL73M0FC1YXPIXLRDAoOyRJNni/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+	<script>
+		function handleSubmit(e){
+		
+			e.preventDefault();
+			const form_data = new FormData(e.target);
+			const form_props = Object.fromEntries(form_data);
+
+			axios.post('authenticate.php', form_props)
+			.then((res) => {
+				const {data} = res
+				//store response data in session Storage
+				console.log(data)
+				//window.location.href = '../home.php';
+
+			})
+		}
+
+		const login_form = document.getElementById("login_form");
+
+		login_form.addEventListener("submit", handleSubmit);
+	</script>
 </body>
+
 
 
 </html>

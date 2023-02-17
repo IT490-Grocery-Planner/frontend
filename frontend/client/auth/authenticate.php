@@ -5,26 +5,27 @@ require_once('../lib/rabbit/path.inc');
 require_once('../lib/rabbit/get_host_info.inc');
 require_once('../lib/rabbit/rabbitMQLib.inc');
 
+
 $client = new rabbitMQClient("../lib/rabbit/testRabbitMQ.ini","testServer");
 
-if(isset($_POST["type"]) && isset($_POST["email"]) && isset($_POST["password"])){
-    if($_POST["type"] == "register" && (!isset($_POST["fname"]) || !isset($_POST["lname"]) || !isset($_POST["password2"]))){
+$req_body = file_get_contents('php://input');
+$data = json_decode($req_body, true);
+
+if(isset($data["type"]) && isset($data["email"]) && isset($data["password"])){
+    if($data["type"] == "register" && (!isset($data["fname"]) || !isset($data["lname"]) || !isset($data["password2"]))){
         $_SESSION["error_msg"] = "Missing Credentials";
         header("Location: index.php");
     } else {
 
-        if($_POST["type"] == "register" && $_POST["password"] != $_POST["password2"]){
+        if($data["type"] == "register" && $data["password"] != $data["password2"]){
             $_SESSION["error_msg"] = "Passwords Must Match";
             header("Location: index.php");
         }
 
         $response = $client->send_request($request);
 
-        $res_obj = json_decode($response, true);
-
         if(intval($res_obj["logged"]) == 1){
-            $_SESSION["user"] = $res_obj;
-            header("Location: ../home.php");
+            echo $response;
         } else {
             $_SESSION["error_msg"] = "Wrong username or password";
             header("Location: index.php");
@@ -34,8 +35,5 @@ if(isset($_POST["type"]) && isset($_POST["email"]) && isset($_POST["password"]))
     $_SESSION["error_msg"] = "Missing Credentials";
     header("Location: index.php");
 }
-
-
-
 
 ?>
