@@ -11,14 +11,10 @@
 </head>
 
 <body>
-<?php if(isset($_SESSION["error_msg"])): ?>
-<div class="alert alert-danger" role="alert">
-	<?= $_SESSION["error_msg"]; ?>
+<div id="alert_container">
+	
 </div>
-<?php unset($_SESSION['error_msg']); ?>
-<?php endif; ?>
 
-		
 	<div class="card mx-auto p-3 mt-5 shadow-sm" style="width: 20rem;">
 		
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -83,16 +79,26 @@
 			axios.post('authenticate.php', form_props)
 			.then((res) => {
 				const {data} = res
-				//store response data in session Storage
-				console.log(data)
-				//window.location.href = '../home.php';
+				//store response data in session Storages
+				console.log('authenticate', res)
+				sessionStorage.setItem("session", JSON.stringify(data));
+				//TODO: change to pageURL function
+				window.location.href = '../index.php';
 
+			}).catch(err => {
+				const {data} = err.response
+				console.log(err)
+				document.getElementById("alert_container").innerHTML = `<div class="alert alert-danger" role="alert">
+					${data.message}
+				</div>`
 			})
 		}
 
 		const login_form = document.getElementById("login_form");
+		const reg_form = document.getElementById("reg_form");
 
 		login_form.addEventListener("submit", handleSubmit);
+		reg_form.addEventListener("submit", handleSubmit);
 	</script>
 </body>
 
