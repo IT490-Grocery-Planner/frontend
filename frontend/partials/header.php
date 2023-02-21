@@ -12,19 +12,23 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js" integrity="sha512-wS6VWtjvRcylhyoArkahZUkzZFeKB7ch/MHukprGSh1XIidNvHG1rxPhyFnL73M0FC1YXPIXLRDAoOyRJNni/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        var user;
+        var session = null;
         function validate_session() {
-        
-            let session = sessionStorage.getItem("session");
+            
+            session = JSON.parse(sessionStorage.getItem("session"));
             if(!session){
                 window.location.href = '/auth/';
             } else {
-                axios.post('/auth/authenticate.php', {"type": 'validate_session', "sessionID": session["session_id"]})
+                console.log("session", session)
+                axios.post('/auth/authenticate.php', {"type": 'validateSession', "sessionID": session["sessionID"]})
                 .then((res) => {
                     const {data} = res;
-                    if(data.valid != 1) window.location.href = '/auth/';
+                    console.log("validate_session_res", res)
+                    if(data.valid != 1) {
+                        sessionStorage.clear();
+                        window.location.href = '/auth/'
+                    };
                 })
-                user = JSON.parse(user_data);
             }
         }
 

@@ -10,7 +10,7 @@ $client = new rabbitMQClient("../lib/rabbit/testRabbitMQ.ini","testServer");
 $req_body = file_get_contents('php://input');
 $data = json_decode($req_body, true);
 
-if (isset($data["type"]) && $data["type"] == 'validate_session'){
+if (isset($data["type"]) && $data["type"] == 'validateSession'){
     try {
         $response = $client->send_request($data);
         echo $response;
@@ -19,9 +19,7 @@ if (isset($data["type"]) && $data["type"] == 'validate_session'){
         header('Content-Type: application/json; charset=UTF-8');
         die(json_encode(array('message' => $e->getMessage())));
     }
-}
-
-if(isset($data["type"]) && isset($data["email"]) && isset($data["password"]) &&
+} else if(isset($data["type"]) && isset($data["email"]) && isset($data["password"]) &&
 ($data["type"] != '' && $data["email"] != '' && $data['password'] != '')){
     if($data["type"] == "register" && (!isset($data["fname"]) || !isset($data["lname"]) || !isset($data["password2"]))){
         header('HTTP/1.1 400 Bad Request');

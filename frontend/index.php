@@ -7,9 +7,9 @@
     </div>
     
     <script>
-        console.log(user)
+        console.log(session)
         dEmail = document.getElementById("display_email")
-        dEmail.textContent = user['email']
+        dEmail.textContent = session['email']
 
     </script>
 </body>
