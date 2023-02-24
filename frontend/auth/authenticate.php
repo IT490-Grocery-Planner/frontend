@@ -5,7 +5,7 @@ require_once('../lib/rabbit/path.inc');
 require_once('../lib/rabbit/get_host_info.inc');
 require_once('../lib/rabbit/rabbitMQLib.inc');
 
-$client = new rabbitMQClient("../lib/rabbit/testRabbitMQ.ini","testServer");
+$client = new rabbitMQClient("../lib/rabbit/dbRabbitMQ.ini","testServer");
 
 $req_body = file_get_contents('php://input');
 $data = json_decode($req_body, true);

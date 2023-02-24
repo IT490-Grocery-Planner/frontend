@@ -1,0 +1,23 @@
+<?php
+
+require_once('../lib/rabbit/path.inc');
+require_once('../lib/rabbit/get_host_info.inc');
+require_once('../lib/rabbit/rabbitMQLib.inc');
+
+$client = new rabbitMQClient("/rabbit/dbRabbitMQ.ini","testServer");
+
+$req_body = file_get_contents('php://input');
+$data = json_decode($req_body, true);
+
+if (isset($data["type"])){
+    try {
+        $response = $client->send_request($data);
+        echo $response;
+    } catch (Exception $e) {
+        header('HTTP/1.1 500 Internal Server Error');
+        header('Content-Type: application/json; charset=UTF-8');
+        die(json_encode(array('message' => $e->getMessage())));
+    }
+}
+
+?>

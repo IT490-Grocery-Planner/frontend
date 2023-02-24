@@ -1,8 +1,11 @@
 import { useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
+
 
 export default function AuthForm() {
 
+    const history = useNavigate()
     const [authtype, setAuthtype] = useState(1)
 
     const handleSubmit = (e) => {
@@ -17,6 +20,7 @@ export default function AuthForm() {
                 //store response data in session Storages
                 console.log('authenticate', res)
                 sessionStorage.setItem("session", JSON.stringify(data));
+                history("/")
 
             }).catch(err => {
                 const { data } = err.response
