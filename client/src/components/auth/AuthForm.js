@@ -14,7 +14,7 @@ export default function AuthForm() {
         const form_data = new FormData(e.target);
         const form_props = Object.fromEntries(form_data);
 
-        axios.post('/auth/authenticate.php', form_props)
+        axios.post('/api/authenticate.php', form_props)
             .then((res) => {
                 const { data } = res
                 //store response data in session Storages

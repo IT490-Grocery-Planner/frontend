@@ -11,10 +11,10 @@ export default function RecipeLookup() {
   const fetchRecipesByKeyword = async () => {
     const session = JSON.parse(sessionStorage.getItem("session"));
 
-    const res = await axios.post("/lib/api.php", {"type": "keywordrecipe", "keyword": keyword, "sessionID": session["sessionID"] })
+    const res = await axios.post("/api", {"type": "keywordrecipe", "keyword": keyword, "sessionID": session["sessionID"] })
     console.log(res.data['results'])
     
-    //setRecipes(res.data['results'])
+    setRecipes(res.data['results'])
     return
   }
 
@@ -23,9 +23,9 @@ export default function RecipeLookup() {
       <h1>Lookup Recipes</h1>
       <input className="form-control" onChange={e => setKeyword(e.target.value)} />
       <button className="btn btn-success mt-3" onClick={fetchRecipesByKeyword}>Lookup</button>
-      <div className="row">
+      <div className="row mt-4">
       
-      {recipes.map(recipe => (<div className="col-sm-3"><RecipeCard recipe /></div>))}
+      {recipes.map(recipe => (<div className="col-sm-3"><RecipeCard recipe={recipe} /></div>))}
       
       </div>
     </div>

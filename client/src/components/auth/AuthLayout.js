@@ -12,7 +12,7 @@ export default function AuthLayout() {
       const session = JSON.parse(sessionStorage.getItem("session"));
       if (session) {
         console.log("session", session)
-        const res = await axios.post('/auth/authenticate.php', { "type": 'validateSession', "sessionID": session["sessionID"] })
+        const res = await axios.post('/api/authenticate.php', { "type": 'validateSession', "sessionID": session["sessionID"] })
         const {data} = res
        
         console.log("validate_session_res", res)

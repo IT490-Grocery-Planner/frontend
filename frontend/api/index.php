@@ -1,10 +1,10 @@
 <?php
 
-require_once('./rabbit/path.inc');
-require_once('./rabbit/get_host_info.inc');
-require_once('./rabbit/rabbitMQLib.inc');
+require_once('../rabbit/path.inc');
+require_once('../rabbit/get_host_info.inc');
+require_once('../rabbit/rabbitMQLib.inc');
 
-$client = new rabbitMQClient("./rabbit/dbRabbitMQ.ini","testServer");
+$client = new rabbitMQClient("../rabbit/dbRabbitMQ.ini","testServer");
 
 $req_body = file_get_contents('php://input');
 $data = json_decode($req_body, true);
