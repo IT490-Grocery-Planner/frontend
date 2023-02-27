@@ -6,6 +6,8 @@ import RecipeLookup from "./pages/RecipeLookup";
 import RecipeRating from "./pages/RecipeRating"
 import RecipeSpotlight from "./pages/RecipeSpotlight";
 import RecipeShare from "./pages/RecipeShare"
+import GroceryAdd from "./pages/GroceryAdd";
+
 import { HashRouter as Router, Routes, Route } from "react-router-dom"
 import AuthLayout from "./components/auth/AuthLayout";
 
@@ -22,6 +24,9 @@ function App() {
             </Route>
             <Route element={<AuthLayout />}>
               <Route exact path="/grocery-list" element={<GroceryList />} />
+            </Route>
+            <Route element={<AuthLayout />}>
+              <Route exact path="/grocery-add" element={<GroceryAdd />} />
             </Route>
   
             <Route element={<AuthLayout />}>

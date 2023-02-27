@@ -16,6 +16,7 @@ export default function AppNavbar() {
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/">My Fridge</Nav.Link>
               <Nav.Link as={Link} to="/grocery-list">Grocery List</Nav.Link>
+              <Nav.Link as={Link} to="/grocery-add">Add Groceries</Nav.Link>
 
               <NavDropdown title="Recipes" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/recipe-lookup">

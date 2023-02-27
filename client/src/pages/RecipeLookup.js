@@ -11,7 +11,7 @@ export default function RecipeLookup() {
   const fetchRecipesByKeyword = async () => {
     const session = JSON.parse(sessionStorage.getItem("session"));
 
-    const res = await axios.post("/api", {"type": "keywordrecipe", "keyword": keyword, "sessionID": session["sessionID"] })
+    const res = await axios.post("/api/index.php", {"type": "keywordrecipe", "keyword": keyword, "sessionID": session["sessionID"] })
     console.log(res.data['results'])
     
     setRecipes(res.data['results'])
