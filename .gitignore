@@ -1,2 +1,3 @@
 serve.sh
 001-sample.conf
+./frontend/app

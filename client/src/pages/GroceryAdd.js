@@ -15,10 +15,10 @@ export default function GroceryAdd() {
 
       <div className='px-5'>
         <div className='row'>
-            <div className='col-sm-6'>
+            <div className='col-sm-5'>
                 <GrocerySelectionForm select={addGrocery}/>
             </div>
-            <div className='col-sm-6'>
+            <div className='col-sm-7'>
                 <GrocerySelections selections={grocerySelections}/>
             </div>
            
