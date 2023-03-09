@@ -4,8 +4,11 @@ export default function GrocerySelectionForm({ select }) {
 
   const session = JSON.parse(sessionStorage.getItem("session"));
   const [lookup, setLookup] = useState([])
+  const [buyDate, setBuyDate] = useState(null);
+  const [expirationDate, setexpirationDate] = useState(null);
+  const [amount, setAmount] = useState(0);
   const [selection, setSelection] = useState(null)
-
+  const imgURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
   const handleSubmitLookup = (e) => {
 
     e.preventDefault();
@@ -29,9 +32,13 @@ export default function GrocerySelectionForm({ select }) {
 
   const handleSubmitSelection = e => {
     e.preventDefault();
-    const form_data = new FormData(e.target);
-    const form_props = Object.fromEntries(form_data);
-    const finalSelectionData = { ...selection, ...form_props }
+
+    const finalSelectionData = {
+      amount,
+      buyDate,
+      expirationDate,
+      ...selection,
+    }
 
     setLookup([])
     setSelection(null)
@@ -57,32 +64,40 @@ export default function GrocerySelectionForm({ select }) {
               lookup.map(item => (
                 <li class="list-group-item d-flex justify-content-between align-items-center"
                   style={{ 'height': '40%', 'cursor': 'pointer' }} key={item['id']}
-                  onClick={() => setSelection(res)}>
+                  onClick={() => setSelection(item)}>
                   {item['name']}
                   <div class="image-parent">
-                    <img src={' https://spoonacular.com/cdn/ingredients_100x100/' + item['image']} class="img-fluid" />
+                    <img src={imgURL+ item['image']} alt={item['name']} class="img-fluid" />
                   </div>
                 </li>
               ))
             }
           </ul>
         ) : (
-          <div>{selection['name']}</div>
+          <>
+            <div class="card my-2">
+              <img width="200" src={imgURL + selection['image']} alt={selection['name']} />
+              <div class="card-body">
+                <h5 class="card-title">{selection['name']}</h5>
+              </div>
+            </div>
+            <form onSubmit={handleSubmitSelection}>
+              <div class="input-group mb-2">
+                <input className="form-control" type="date"
+                  onChange={e => setBuyDate(e.target.value)} placeholder='Buy Date' />
+                <input className="form-control" type="date"
+                  onChange={e => setexpirationDate(e.target.value)} placeholder='Expiration Date' />
+              </div>
+
+              <input className="form-control mb-2" onChange={e => setAmount(Number(e.target.value))}
+                type="number" name="amount" placeholder='Set Quantity' />
+              <input type="submit" value="Submit" class="btn btn-success" />
+            </form>
+          </>
         )
       }
 
-      {
-        selection && (
-          <form onSubmit={handleSubmitSelection}>
-            <div class="input-group ">
-              <input className="form-control" type="date" name="buyDate" placeholder='Buy Date' />
-              <input className="form-control" type="date" name="expireDate" placeholder='Expiration Date' />
-            </div>
-            <input className="form-control" type="number" name="amount" placeholder='amount' />
-            <input type="submit" value="Submit" class="btn btn-success" />
-          </form>
-        )
-      }
+
 
     </div>
 
