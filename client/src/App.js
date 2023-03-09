@@ -1,9 +1,8 @@
 import AuthForm from "./components/auth/AuthForm";
-import GroceryList from "./pages/GroceryList"
 import Logout from "./components/auth/Logout";
-import MyFridge from "./pages/MyFridge"
+import GroceryDashboard from "./pages/GroceryDashboard"
 import RecipeLookup from "./pages/RecipeLookup";
-import RecipeRating from "./pages/RecipeRating"
+import SavedRecipes from "./pages/SavedRecipes"
 import RecipeSpotlight from "./pages/RecipeSpotlight";
 import RecipeShare from "./pages/RecipeShare"
 import GroceryAdd from "./pages/GroceryAdd";
@@ -20,10 +19,7 @@ function App() {
           <Routes>
             {/*User Pages */}
             <Route element={<AuthLayout />}>
-              <Route exact path="/" element={<MyFridge />} />
-            </Route>
-            <Route element={<AuthLayout />}>
-              <Route exact path="/grocery-list" element={<GroceryList />} />
+              <Route exact path="/" element={<GroceryDashboard />} />
             </Route>
             <Route element={<AuthLayout />}>
               <Route exact path="/grocery-add" element={<GroceryAdd />} />
@@ -33,7 +29,7 @@ function App() {
               <Route exact path="/recipe-lookup" element={<RecipeLookup />} />
             </Route>
             <Route element={<AuthLayout />}>
-              <Route exact path="/recipe-rating" element={<RecipeRating />} />
+              <Route exact path="/saved-recipes" element={<SavedRecipes />} />
             </Route>
             <Route element={<AuthLayout />}>
               <Route exact path="/recipe-share" element={<RecipeShare />} />

@@ -14,8 +14,7 @@ export default function AppNavbar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/">My Fridge</Nav.Link>
-              <Nav.Link as={Link} to="/grocery-list">Grocery List</Nav.Link>
+              <Nav.Link as={Link} to="/">Groceries</Nav.Link>
               <Nav.Link as={Link} to="/grocery-add">Add Groceries</Nav.Link>
 
               <NavDropdown title="Recipes" id="basic-nav-dropdown">

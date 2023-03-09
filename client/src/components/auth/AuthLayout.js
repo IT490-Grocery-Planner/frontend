@@ -31,7 +31,7 @@ export default function AuthLayout() {
     }
 
     validateSession()
-  }, [])
+  }, [location])
 
   if (valid === null) return null;
 
