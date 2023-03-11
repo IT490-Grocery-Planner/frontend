@@ -4,7 +4,7 @@ import GroceryDashboard from "./pages/GroceryDashboard"
 import RecipeLookup from "./pages/RecipeLookup";
 import SavedRecipes from "./pages/SavedRecipes"
 import RecipeSpotlight from "./pages/RecipeSpotlight";
-import RecipeShare from "./pages/RecipeShare"
+import UserRecipes from "./pages/UserRecipes";
 import GroceryAdd from "./pages/GroceryAdd";
 
 import { HashRouter as Router, Routes, Route } from "react-router-dom"
@@ -32,7 +32,7 @@ function App() {
               <Route exact path="/saved-recipes" element={<SavedRecipes />} />
             </Route>
             <Route element={<AuthLayout />}>
-              <Route exact path="/recipe-share" element={<RecipeShare />} />
+              <Route exact path="/my-recipes" element={<UserRecipes />} />
             </Route>
             <Route element={<AuthLayout />}>
               <Route exact path="/recipe-spotlight" element={<RecipeSpotlight />} />

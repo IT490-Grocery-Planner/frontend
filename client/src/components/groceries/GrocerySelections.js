@@ -1,20 +1,10 @@
 import React from 'react'
-import axios from 'axios'
 
-export default function GrocerySelections({ selections }) {
-  console.log("selections", selections)
-  const submitSelections = async () => {
-    const session = JSON.parse(sessionStorage.getItem("session"));
 
-    const res = await axios.post("/api/index.php", {
-      "type": "addGroceries",
-      "groceries": selections,
-      "sessionID": session["sessionID"]
-    })
+export default function GrocerySelections({ selections, onSubmit }) {
 
-    console.log('add groceries', res)
-
-    return
+  const handlesubmit = () => {
+    onSubmit();
   }
   return (
     <div>
@@ -34,7 +24,7 @@ export default function GrocerySelections({ selections }) {
 
       </ul>
 
-      {selections.length > 0 && <button className="btn btn-success float-right" onClick={submitSelections}>Submit Selections</button>}
+      {selections.length > 0 && <button className="btn btn-success float-right" onClick={handlesubmit}>Submit Selections</button>}
     </div>
 
   )

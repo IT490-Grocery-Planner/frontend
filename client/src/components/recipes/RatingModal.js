@@ -40,7 +40,7 @@ export default function RatingModal(props) {
               Close
             </Button>
             <Button variant="success" onClick={handleSubmit}>
-              Save Changes
+              Save Recipe
             </Button>
           </Modal.Footer>
         </Modal>

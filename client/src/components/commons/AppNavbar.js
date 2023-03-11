@@ -18,15 +18,16 @@ export default function AppNavbar() {
               <Nav.Link as={Link} to="/grocery-add">Add Groceries</Nav.Link>
 
               <NavDropdown title="Recipes" id="basic-nav-dropdown">
+                <NavDropdown.Item as={Link} to="/my-recipes">
+                  My Recipes 
+                </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/recipe-lookup">
                   Recipe Lookup 
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/recipe-rating">
-                  Recipe Rating 
+                <NavDropdown.Item as={Link} to="/saved-recipes">
+                  Saved Recipes 
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/recipe-share">
-                  Recipe Share 
-                </NavDropdown.Item>
+              
                 <NavDropdown.Item as={Link} to="/recipe-spotlight">
                   Recipe Spotlight 
                 </NavDropdown.Item>
