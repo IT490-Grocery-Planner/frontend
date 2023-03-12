@@ -4,7 +4,7 @@ import UserRecipeModal from '../components/recipes/UserRecipeModal'
 
 export default function UserRecipes() {
   const [showModal, setShowModal] = useState(false)
-
+  const [userRecipes, setUserRecipes] = useState([])
   const submitUserRecipe = async (recipeData) => {
     try {
         const session = JSON.parse(sessionStorage.getItem("session"));
@@ -25,6 +25,28 @@ export default function UserRecipes() {
 
     }
 
+  const getUserRecipes = async () => {
+    try {
+      const session = JSON.parse(sessionStorage.getItem("session"));
+      const res = await axios.post("/api/index.php", {
+        "type": "getUserRecipe",
+        "sessionID": session["sessionID"],
+
+      });
+
+      console.log("get_user_recipes",res)
+
+      setUserRecipes(res.data.getUserRecipes)
+  
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getUserRecipes()
+  }, [])
   
   return (
     <div className='container'>
