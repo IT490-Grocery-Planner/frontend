@@ -8,8 +8,10 @@ export default function UserRecipeModal(props) {
 
 
   const handleSubmit = async (e) => {
-    const data = {}
-    onSubmit(data)
+    e.preventDefault();
+    const form_data = new FormData(e.target);
+    const form_props = Object.fromEntries(form_data);
+    props.onSubmit(form_props)
 
   }
 
@@ -20,35 +22,31 @@ export default function UserRecipeModal(props) {
         <Modal.Header closeButton>
           <Modal.Title>Save Recipe</Modal.Title>
         </Modal.Header>
+        <form onSubmit={handleSubmit} method="POST">
         <Modal.Body>
-          <form role="tabpanel" onSubmit={handleSubmit} method="POST">
-
-            <div class="input-group mb-3">
-              <input type="text" class="form-control me-2" name="fname" placeholder="First Name" />
-              <input type="text" class="form-control" name="lname" placeholder="Last Name" />
+          
+            <div class="mb-3">
+              <input type="text" class="form-control me-2" name="title" placeholder="Tile" />
+              <input type="number" class="form-control" name="maxReadyTime" placeholder="Max Time" />
             </div>
             <div class="mb-3">
-              <input name="email" type="email" class="form-control" placeholder="Email Address" id="email" />
+              <textarea class="form-control" placeholder="Recipe Description..." name="description" rows="2"></textarea>
             </div>
             <div class="mb-3">
-              <input name="password" type="password" class="form-control" placeholder="Password" id="password" />
+              <textarea class="form-control" placeholder="Recipe Instructions..." name="instructions" rows="4"></textarea>
             </div>
-            <div class="mb-3">
-              <input name="password2" type="password" class="form-control reg-field" placeholder="Confirm Password" id="password2" />
-            </div>
-            <div class="d-grid gap-2 mb-3">
-              <input type="submit" value="Register" class="btn btn-success" />
-            </div>
-          </form>
+           
+          
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.close}>
             Close
           </Button>
-          <Button variant="success" onClick={handleSubmit}>
+          <Button variant="success" type='submit'>
             Save Recipe
           </Button>
         </Modal.Footer>
+        </form>
       </Modal>
     </>
   );
