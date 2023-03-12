@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import UserRecipeModal from '../components/recipes/UserRecipeModal'
+import UserRecipeCard from '../components/recipes/UserRecipeCard'
 
 export default function UserRecipes() {
   const [showModal, setShowModal] = useState(false)
@@ -16,8 +17,9 @@ export default function UserRecipes() {
         });
 
         console.log("submit_user_recipe",res)
-    
+        
         setShowModal(false)
+        await getUserRecipes()
 
       } catch (err) {
         console.log(err)
@@ -56,7 +58,7 @@ export default function UserRecipes() {
             <hr/>
         </div>
         <div className='row'>
-
+        {userRecipes.map(recipe => (<div className="col-sm-3"><UserRecipeCard recipe={recipe} /></div>))}
         </div>
     </div>
   )
