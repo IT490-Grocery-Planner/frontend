@@ -1,32 +1,32 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/UserContext";
 
 
 export default function AuthForm() {
 
     const history = useNavigate()
     const [authtype, setAuthtype] = useState(1)
-
-    const handleSubmit = (e) => {
+    const {login} = useAuth()
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
         const form_data = new FormData(e.target);
         const form_props = Object.fromEntries(form_data);
 
-        axios.post('/api/authenticate.php', form_props)
-            .then((res) => {
-                const { data } = res
-                //store response data in session Storages
-                console.log('authenticate', res)
-                sessionStorage.setItem("session", JSON.stringify(data));
-                history("/")
+        try{
+            const res = await axios.post('/api/authenticate.php', form_props)
+            console.log('authenticate', res)
 
-            }).catch(err => {
-                const { data } = err.response
-                console.log(data)
-                //Check how to flash err messages
-            })
+            login(res.data);
+            history("/")
+        } catch(err){
+            const { data } = err.response
+            console.log(data)
+        }
+       
+
     }
 
 

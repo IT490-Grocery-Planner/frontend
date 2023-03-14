@@ -2,18 +2,19 @@ import { useState, useEffect } from "react"
 import { Outlet, Navigate, useLocation } from "react-router-dom"
 import AppNavbar from "../commons/AppNavbar"
 import axios from "axios"
+import { useAuth } from "../../context/UserContext"
 export default function AuthLayout() {
 
   const [valid, setValid] = useState(null)
+  const {currentUser} = useAuth()
   const location = useLocation();
 
   useEffect(() => {
     const validateSession = async () => {
-      const session = JSON.parse(sessionStorage.getItem("session"));
-      if (session) {
-        console.log("session", session)
+      if (currentUser !== null) {
+        console.log("session", currentUser)
         try {
-          const res = await axios.post('/api/authenticate.php', { "type": 'validateSession', "sessionID": session["sessionID"] })
+          const res = await axios.post('/api/authenticate.php', { "type": 'validateSession', "sessionID": currentUser["sessionID"] })
           const { data } = res
 
           console.log("validate_session_res", res)
@@ -31,7 +32,7 @@ export default function AuthLayout() {
     }
 
     validateSession()
-  }, [location])
+  }, [location, currentUser])
 
   if (valid === null) return null;
 
@@ -42,6 +43,6 @@ export default function AuthLayout() {
         <Outlet />
       </div>
     </>
-  ) : <Navigate to="/logout" replace state={{ from: location }} />;
+  ) : <Navigate to={"/auth"} replace />
 
 }

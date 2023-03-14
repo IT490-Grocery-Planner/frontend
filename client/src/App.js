@@ -7,6 +7,7 @@ import RecipeSpotlight from "./pages/RecipeSpotlight";
 import UserRecipes from "./pages/UserRecipes";
 import GroceryAdd from "./pages/GroceryAdd";
 
+import { UserProvider } from "./context/UserContext";
 import { HashRouter as Router, Routes, Route } from "react-router-dom"
 import AuthLayout from "./components/auth/AuthLayout";
 
@@ -15,7 +16,7 @@ function App() {
     <div className="App">
 
       <Router>
-      
+      <UserProvider>
           <Routes>
             {/*User Pages */}
             <Route element={<AuthLayout />}>
@@ -45,6 +46,8 @@ function App() {
             <Route exact path="/logout" element={<Logout />} />
 
           </Routes>
+
+          </UserProvider>
       </Router>
 
     </div>

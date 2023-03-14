@@ -4,8 +4,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/UserContext';
 
 export default function AppNavbar() {
+
+    const {currentUser, logout} = useAuth()
   
     return (
         <Navbar bg="light" expand="lg">
@@ -36,9 +39,9 @@ export default function AppNavbar() {
               </NavDropdown>
 
             </Nav>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+            <NavDropdown title={`${currentUser['fname']},${currentUser['lname']}`} id="basic-nav-dropdown">
                 
-                <NavDropdown.Item as={Link} to='/logout'>
+                <NavDropdown.Item onClick={logout}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
