@@ -1,43 +1,32 @@
-import React, {useEffect, useState} from 'react'
-import axios from "axios"
+import React from 'react'
+import Spinner from 'react-bootstrap/Spinner';
 import GroceryListDisplay from '../components/groceries/GroceryListDisplay'
 import FridgeDisplay from '../components/groceries/FridgeDisplay'
+import useApiRequest from '../hooks/useApiRequest'
 
 export default function GroceryDashboard() {
-  const [fridge, setFridge] = useState([])
-  const [list, setList] = useState([])
-  useEffect(() => {
-    const fetchGroceries = async () => {
-      try {
-        const session = JSON.parse(sessionStorage.getItem("session"));
-        const res = await axios.post("/api/index.php", {
-          "type": "userGroceries",
-          "sessionID": session["sessionID"]
-        });
-        console.log(res)
-        
-        setFridge(res.data['groceries'])
 
-        setList(res.data['listItems'])
-
-      } catch (err) {
-        console.log(err)
-      }
-
-    }
-
-    fetchGroceries()
-  }, [])
+  const { response, error, loading } = useApiRequest('userGroceries')
 
   return (
-    
+
     <div className="row">
-      <div className="col-sm-12 mb-5 mt-3">
-        <GroceryListDisplay items={list} />
-      </div>
-      <div className="col-sm-12">
-        <FridgeDisplay items={fridge} />
-      </div>
+      {loading && (<>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </>)}
+      {response && (
+        <>
+          <div className="col-sm-12 mb-5 mt-3">
+            <GroceryListDisplay items={response.data['listItems']} />
+          </div>
+          <div className="col-sm-12">
+            <FridgeDisplay items={response.data['groceries']} />
+          </div>
+        </>
+      )}
+
     </div>
 
   )
