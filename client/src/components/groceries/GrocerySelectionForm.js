@@ -25,7 +25,6 @@ export default function GrocerySelectionForm({ select }) {
       }).catch(err => {
         const { data } = err.response
         console.log(data)
-        //Check how to flash err messages
       })
   }
 
@@ -82,11 +81,14 @@ export default function GrocerySelectionForm({ select }) {
               </div>
             </div>
             <form onSubmit={handleSubmitSelection}>
+            <label for="buyDate">Buy Date : </label>
+            <label for="expDate">Expiration Date : </label>
               <div class="input-group mb-2">
+              
                 <input className="form-control" type="date"
-                  onChange={e => setBuyDate(e.target.value)} placeholder='Buy Date' />
+                  onChange={e => setBuyDate(e.target.value)} placeholder='Buy Date' id='buyDate'/>
                 <input className="form-control" type="date"
-                  onChange={e => setexpirationDate(e.target.value)} placeholder='Expiration Date' />
+                  onChange={e => setexpirationDate(e.target.value)} placeholder='Expiration Date' id='expDate' />
               </div>
 
               <input className="form-control mb-2" onChange={e => setAmount(Number(e.target.value))}

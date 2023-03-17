@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import GrocerySelections from '../components/groceries/GrocerySelections'
 import GrocerySelectionForm from '../components/groceries/GrocerySelectionForm'
 import useApiRequest from '../hooks/useApiRequest'
@@ -7,19 +6,19 @@ import useApiRequest from '../hooks/useApiRequest'
 export default function GroceryAdd() {
   const [grocerySelections, setGrocerySelections] = useState([])
 
+  const {doRequest } = useApiRequest("addGroceries")
+
   const addGrocery = (grocery) => {
     //TODO: Add check to prevent duplicate
     setGrocerySelections(prev => [...prev, grocery])
   }
 
   const submitSelections = () => {
-    const { response, error, loading } = useApiRequest(
-      "addGroceries",
-      { "groceries": grocerySelections }
-    )
-
-    setGrocerySelections([])
-
+    
+    doRequest({ "groceries": grocerySelections }).then(() => {
+      setGrocerySelections([])
+    })
+      
   }
 
   return (

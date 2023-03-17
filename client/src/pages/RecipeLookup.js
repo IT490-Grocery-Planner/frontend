@@ -55,7 +55,12 @@ export default function RecipeLookup() {
 
       <div className="row mt-4">
       
-      {recipes.map(recipe => (<div className="col-sm-3"><RecipeCard recipe={recipe} save={handleOpen}/></div>))}
+      {recipes.map(recipe => (
+        <div className="col-sm-3 my-1">
+          <RecipeCard recipe={recipe}>
+            <button onClick={handleOpen} class="btn btn-success">Save</button>  
+          </RecipeCard>
+        </div>))}
       
       </div>
     </div>

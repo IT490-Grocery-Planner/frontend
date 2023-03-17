@@ -1,33 +1,32 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {  useState, useCallback } from "react";
 import { useAuth } from "../context/UserContext";
 
-const useApiRequest = (type, body={}) => {
+const useApiRequest = (type) => {
     const [response, setResponse] = useState(null);
     const [loading, setloading] = useState(true);
     const [error, seterror] = useState(null);
-    const {currentUser, logout} = useAuth()
+    const {currentUser} = useAuth()
 
-    useEffect(() => {
+    const doRequest = useCallback(
+        async (body={}) => {
+        try {
+            const res = await axios.post('/api/index.php', { type, sessionID: currentUser['sessionID'], ...body })
+            console.log(type + '_request', res)
+            setResponse(res)
 
-        const makeRequest = async () => {
-            try {
-                const res = await axios.post('/api/index.php', { type, sessionID: currentUser['sessionID'], ...body })
-                console.log(type + '_request', res)
-                setResponse(res)
-
-            } catch (err) {
-                seterror("Error")
-                console.log(err)
-            }
-
-            setloading(false)
-
+        } catch (err) {
+            seterror("Error")
+            console.log(err)
         }
-        makeRequest()
-    }, []);
 
-    return { response, loading, error };
+        setloading(false)
+
+    }, [type,currentUser])
+
+ 
+
+    return { response, loading, error, doRequest };
 };
 
 export default useApiRequest;

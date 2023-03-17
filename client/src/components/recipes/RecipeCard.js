@@ -1,16 +1,16 @@
 import React from 'react'
 
-export default function RecipeCard(props) {
-  const {recipe, save} = props
+export default function RecipeCard({recipe, children}) {
 //const baseURL = "https://spoonacular.com/recipeImages/";
   return (
     <div class="card" style={{"width": "18rem"}}>
-        <img class="card-img-top" src={recipe['image']} alt="Card image cap" />
+        
+        <img class="card-img-top" src={recipe['image']} alt={recipe['title']}/>
         <div class="card-body">
             <h5 class="card-title">{recipe['title']}</h5>
-            <a href={recipe['sourceUrl']} target="_blank" class="btn btn-primary">See Recipe</a>
-            {save && <button onClick={() => save(recipe)} class="btn btn-success">Save</button>}
+            <a href={recipe['sourceUrl']} rel="noreferrer" target="_blank" class="btn btn-primary">See Recipe</a> 
         </div>
+        <div class='card-footer'>{children}</div>
     </div>
   )
 }

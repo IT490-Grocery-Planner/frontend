@@ -1,22 +1,22 @@
-import React from 'react'
-import Spinner from 'react-bootstrap/Spinner';
+import React, {useEffect} from 'react'
+import ReqLayout from '../components/commons/ReqLayout'
 import GroceryListDisplay from '../components/groceries/GroceryListDisplay'
 import FridgeDisplay from '../components/groceries/FridgeDisplay'
 import useApiRequest from '../hooks/useApiRequest'
 
 export default function GroceryDashboard() {
 
-  const { response, error, loading } = useApiRequest('userGroceries')
+  const { response, error, loading, doRequest } = useApiRequest('userGroceries')
 
+  useEffect(() => {
+    doRequest()
+  }, [doRequest])
+  
   return (
 
     <div className="row">
-      {loading && (<>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </>)}
-      {response && (
+      <ReqLayout response={response} error={error} loading={loading}>
+        {response && (
         <>
           <div className="col-sm-12 mb-5 mt-3">
             <GroceryListDisplay items={response.data['listItems']} />
@@ -25,8 +25,9 @@ export default function GroceryDashboard() {
             <FridgeDisplay items={response.data['groceries']} />
           </div>
         </>
-      )}
-
+        )}
+    
+      </ReqLayout>
     </div>
 
   )

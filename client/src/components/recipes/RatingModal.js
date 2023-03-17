@@ -4,24 +4,24 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-export default function RatingModal(props) {
+export default function RatingModal({selection, close, show}) {
 
     const [rating, setRating] = useState(null)
-    
+    const imgUrl = 'https://spoonacular.com/recipeImages/'
     const handleSubmit = async () => {
-      const saveData = {...props.selection, rating}
+      const saveData = {...selection, image:imgUrl+selection.image,rating}
       const session = JSON.parse(sessionStorage.getItem("session"));
       
       const res = await axios.post("/api/index.php", {"type": "saveRecipe", "sessionID": session["sessionID"], "recipe": saveData})
       console.log("save_recipe", res)
       
-      props.close()
+      close()
       setRating(null)
     }
     return (
       <>
     
-        <Modal show={props.show} onHide={props.close}>
+        <Modal show={show} onHide={close}>
           <Modal.Header closeButton>
             <Modal.Title>Save Recipe</Modal.Title>
           </Modal.Header>
@@ -36,7 +36,7 @@ export default function RatingModal(props) {
             </select>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={props.close}>
+            <Button variant="secondary" onClick={close}>
               Close
             </Button>
             <Button variant="success" onClick={handleSubmit}>
