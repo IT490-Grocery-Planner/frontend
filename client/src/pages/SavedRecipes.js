@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import RecipeCard from '../components/recipes/RecipeCard'
 import ReqLayout from '../components/commons/ReqLayout'
 import useApiRequest from '../hooks/useApiRequest'
+import StarRating from '../components/commons/StarRating'
 
 export default function SavedRecipes() {
 
@@ -20,7 +21,7 @@ export default function SavedRecipes() {
           {response && response.data.userRatedRecipes.map(recipe => (
             <div className="col-sm-3 my-2">
               <RecipeCard recipe={recipe}>
-                {recipe.rating}
+                <StarRating rating={recipe.rating} />
               </RecipeCard>
             </div>
           ))}
