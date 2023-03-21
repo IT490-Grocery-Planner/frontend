@@ -10,11 +10,12 @@ export default function RecipeLookup() {
   const [selectedRecipe, setSelectedRecipe] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
+  // Hooks to make different requests
   const keywordRecipe = useApiRequest('keywordrecipe')
   const groceryRecipe = useApiRequest('groceryrecipe')
   const expiredRecipe = useApiRequest('expirerecipe')
 
-
+  // Trigger requests based on selected query
   const fetchRecipes = useCallback(async (query) => {
     switch (query) {
       case 'keywordrecipe':
@@ -33,10 +34,12 @@ export default function RecipeLookup() {
 
   }, [keywordRecipe, groceryRecipe, groceryRecipe])
 
+  //Get get recipe array based on queries (memoize results to revent unecessary recalculation)
   const recipes = useMemo(() => {
     switch (query) {
-      case 'keywordrecipe':
-        const baseURL = 'https://spoonacular.com/recipeImages/'
+      case 'keywordrecipe': 
+        // base image url had to be added manually because Spoonacular  didn't provide it for this request
+        const baseURL = 'https://spoonacular.com/recipeImages/' 
         return keywordRecipe.response?.data['results'].map(recipe => ({ ...recipe, image: baseURL + recipe.image })) ?? []
       case 'groceryrecipe':
         return groceryRecipe.response?.data ?? []
@@ -47,12 +50,15 @@ export default function RecipeLookup() {
     }
   }, [query, groceryRecipe.response, expiredRecipe.response, keywordRecipe.response])
 
+  // Consolidate different loading states into one 
   const loading = useMemo(() => (keywordRecipe.loading || groceryRecipe.loading || expiredRecipe.loading),
     [groceryRecipe.loading, expiredRecipe.loading, keywordRecipe.loading])
 
+  // Consolidate different errors
   const error = useMemo(() => (keywordRecipe.error ?? groceryRecipe.error ?? expiredRecipe.error),
     [groceryRecipe.error, expiredRecipe.error, keywordRecipe.error])
 
+  // Recipe saving/rating state modal handler
   const handleOpen = recipe => {
     setSelectedRecipe(recipe);
     setShowModal(true);

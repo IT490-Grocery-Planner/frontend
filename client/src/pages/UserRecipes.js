@@ -6,9 +6,13 @@ import ReqLayout from '../components/commons/ReqLayout'
 
 export default function UserRecipes() {
   const [showModal, setShowModal] = useState(false)
+  // request to get user recipes
   const {response: userRecipes, error, loading, doRequest: getUserRecipes} = useApiRequest('getUserRecipe')
+
+  // request to save user recipes
   const {response: postResponse, doRequest: postUserRecipe} = useApiRequest('userRecipe')
 
+  // save user recipes && close modal
   const submitUserRecipe = async (recipeData) => {
 
     await postUserRecipe({ "userRecipe": recipeData })
@@ -17,6 +21,7 @@ export default function UserRecipes() {
 
   }
 
+  // Load user recipes on page load or whenever new recipe is added
   useEffect(() => {
     getUserRecipes()
   }, [getUserRecipes, postResponse])

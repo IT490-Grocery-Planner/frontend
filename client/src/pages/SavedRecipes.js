@@ -7,8 +7,10 @@ import StarRating from '../components/commons/StarRating'
 
 export default function SavedRecipes() {
 
+  // Request to view rated recipes
   const { response, error, loading, doRequest } = useApiRequest('viewRated')
 
+  // Load saved recipes as soon as component loads
   useEffect(() => {
     doRequest()
   }, [doRequest])

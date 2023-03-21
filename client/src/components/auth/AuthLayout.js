@@ -9,6 +9,7 @@ export default function AuthLayout() {
   const {currentUser} = useAuth()
   const location = useLocation();
 
+  // Validates sessionID every time we go to another page
   useEffect(() => {
     const validateSession = async () => {
       if (currentUser !== null) {
@@ -32,10 +33,11 @@ export default function AuthLayout() {
     }
 
     validateSession()
-  }, [location, currentUser])
+  }, [location, currentUser]) // Location depencency ensures function is reloaded whnever we go to another route
 
   if (valid === null) return null;
 
+  //Conditional rendering, if key is invalid or user is null go back to authentication page
   return valid && currentUser ? (
     <>
       <AppNavbar />

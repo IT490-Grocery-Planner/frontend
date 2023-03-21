@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
+// This componet displays the star rating for the saved recipes
 const StarRating = ({ rating }) => {
   // Round the rating to the nearest half star
   const roundedRating = Math.round(rating * 2) / 2;

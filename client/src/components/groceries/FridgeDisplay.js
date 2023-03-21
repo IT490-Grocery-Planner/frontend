@@ -2,22 +2,24 @@ import React from 'react'
 
 export default function FridgeDisplay(props) {
     const {items} = props
+    //Base URL for ingredients
     const imgURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
 
     const tmspToDate = (timestamp) => {
-        
+        // Turn timestamp into integer unix timestamp (epoch)
         const date = new Date(Number(timestamp)*1000)
         return date.toDateString();
     }
 
+    // Get display color of fridge item based on expiration date
     const expStatusColor = timestamp => {
         const tmspMs = Number(timestamp)*1000
-        if(tmspMs > Date.now() + (1000 * 60 * 60 * 24 * 7)){
+        if(tmspMs > Date.now() + (1000 * 60 * 60 * 24 * 7)){ // green if expiration date > 7 days
             return "bg-success"
-        } else if (tmspMs < Date.now()){
+        } else if (tmspMs < Date.now()){ // red if expiration date  has passed
             return "bg-danger"
         } else {
-            return "bg-warning"
+            return "bg-warning" // yellow if expiration date within a week
         }
     }
 

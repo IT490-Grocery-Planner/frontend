@@ -16,7 +16,7 @@ export default function RatingModal({selection, close, show}) {
       console.log("save_recipe", res)
       
       close()
-      setRating(null)
+      setRating(1)
     }
     return (
       <>

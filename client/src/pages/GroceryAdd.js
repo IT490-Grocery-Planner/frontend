@@ -6,15 +6,15 @@ import useApiRequest from '../hooks/useApiRequest'
 export default function GroceryAdd() {
   const [grocerySelections, setGrocerySelections] = useState([])
 
-  const {doRequest } = useApiRequest("addGroceries")
+  const {doRequest} = useApiRequest("addGroceries")
 
   const addGrocery = (grocery) => {
     //TODO: Add check to prevent duplicate
     setGrocerySelections(prev => [...prev, grocery])
   }
 
+  //Submit selections grocery selections
   const submitSelections = () => {
-    
     doRequest({ "groceries": grocerySelections }).then(() => {
       setGrocerySelections([])
     })

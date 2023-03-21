@@ -26,9 +26,9 @@ export default function ToFridgeModal({ show, close, onSubmit }) {
 
             <div class="mb-3">
               <label for="buyDate">Buy Date : </label>
-              <input className="form-control" type="date" name="buyDate" id='buyDate' />
+              <input className="form-control" type="date" name="buyDate" id='buyDate' required/>
               <label for="expDate">Expiration Date : </label>
-              <input className="form-control" type="date" name="expirationDate" id='expDate' />
+              <input className="form-control" type="date" name="expirationDate" id='expDate' required/>
             </div>
 
 

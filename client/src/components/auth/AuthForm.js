@@ -6,21 +6,24 @@ import { useAuth } from "../../context/UserContext";
 
 export default function AuthForm() {
 
-    const history = useNavigate()
     const [authtype, setAuthtype] = useState(1)
     const {login} = useAuth()
+    const history = useNavigate()
+    
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+
+        //Get form data and create onject from the
         const form_data = new FormData(e.target);
         const form_props = Object.fromEntries(form_data);
 
-        try{
+        try{ //Send authentication data to backend
             const res = await axios.post('/api/authenticate.php', form_props)
             console.log('authenticate', res)
 
-            login(res.data);
-            history("/")
+            login(res.data); // use session data from backend response to login user
+            history("/") // Go back to root
         } catch(err){
             const { data } = err.response
             console.log(data)

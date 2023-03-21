@@ -6,43 +6,51 @@ import ToFridgeModal from '../components/groceries/ToFridgeModal'
 import useApiRequest from '../hooks/useApiRequest'
 
 export default function GroceryDashboard() {
-
-  const { response, error, loading, doRequest } = useApiRequest('userGroceries')
+  
   const [listItem, setListItem] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
-  const moveListItem = async (data) => {
-    console.log(listItem)
-    console.log(data)
+  const getUserGroceries = useApiRequest('userGroceries')
+  const listToFridge = useApiRequest('listToFridge')
 
+  //move items from shopping list to fridge
+  const moveListItem = async (data) => { 
+    const grocery = {...data, ...listItem}
+    await listToFridge.doRequest({'grocery': grocery})
+    closeModal()
   }
 
+  // Open modal to move item from list to fridge
   const openModal = (item) => {
     console.log(item)
     setListItem(item)
     setShowModal(true)
   }
+
+  // Close modal to move item from list to fridge
   const closeModal = () => {
     setListItem(null)
     setShowModal(false)
   }
 
+  // Gets groceru items as soon as page loads
   useEffect(() => {
-    doRequest()
-  }, [doRequest])
+    getUserGroceries.doRequest()
+  }, [getUserGroceries.doRequest, listToFridge.response])
   
   return (
 
     <div className="row">
       <ToFridgeModal onSubmit={moveListItem} show={showModal} close={closeModal}/>
-      <ReqLayout error={error} loading={loading}>
-        {response && (
+      <ReqLayout error={getUserGroceries.error} loading={getUserGroceries.loading}>
+        {getUserGroceries.response && (
         <>
           <div className="col-sm-12 mb-5 mt-3">
-            <GroceryListDisplay addToFridge={openModal} items={response.data['listItems']} />
+            <GroceryListDisplay addToFridge={openModal} 
+            items={getUserGroceries.response.data['listItems']} />
           </div>
           <div className="col-sm-12">
-            <FridgeDisplay items={response.data['groceries']} />
+            <FridgeDisplay items={getUserGroceries.response.data['groceries']} />
           </div>
         </>
         )}
