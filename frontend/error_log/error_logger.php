@@ -4,14 +4,13 @@ require_once('../rabbit/path.inc');
 require_once('../rabbit/get_host_info.inc');
 require_once('../rabbit/rabbitMQLib.inc');
 
-//$client = new rabbitMQClient("../rabbit/dbRabbitMQ.ini","errorLogger");
-
+// Error logging function
 function logerror($type,$error){
-  $file_data = $error;
-  $error_log_name = $type.".txt";
-  $file_data .= file_get_contents($error_log_name);
-  file_put_contents($error_log_name, $file_data);
-  return json_encode(["message" => "Error Logged"]);
+ 
+  $error_log_name = $type.".txt"; // Gets relevant error log file from error type
+  $file_data = $error . file_get_contents($error_log_name); // prepend current error to lo file's current content 
+  file_put_contents($error_log_name, $file_data); // Write new content back to error log
+  return json_encode(["message" => "Error Logged"]); 
 }
 function requestProcessor($request)
 {
