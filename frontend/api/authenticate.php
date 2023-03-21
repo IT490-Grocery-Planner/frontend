@@ -38,7 +38,7 @@ if (isset($data["type"]) && $data["type"] == 'validateSession'){
             $response = $client->send_request($data);
             $res_obj = json_decode($response, true);
             if(isset($res_obj['sessionID'])){
-                echo json_encode(["valid" => $res_obj['valid'], "sessionID" => $res_obj['sessionID']]);
+                echo json_encode($res_obj);
             } else {
                 header('HTTP/1.1 400 Bad Request');
                 header('Content-Type: application/json; charset=UTF-8');

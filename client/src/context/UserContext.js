@@ -32,8 +32,9 @@ export function UserProvider({ children }) {
 
   const login = (session) => {
 
+    setCurrentUser(session)
     setSessionStorage('session', session)
-    setCurrentUser(getSessionStorage('session', null))
+    
     
   }
 

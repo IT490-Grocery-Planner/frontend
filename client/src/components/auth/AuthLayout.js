@@ -36,7 +36,7 @@ export default function AuthLayout() {
 
   if (valid === null) return null;
 
-  return valid ? (
+  return valid && currentUser ? (
     <>
       <AppNavbar />
       <div class='container mt-5'>
