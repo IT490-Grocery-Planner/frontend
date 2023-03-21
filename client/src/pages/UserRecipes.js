@@ -22,7 +22,6 @@ export default function UserRecipes() {
   }, [getUserRecipes, postResponse])
 
 
-
   return (
     <div className='container'>
       <UserRecipeModal show={showModal} onSubmit={submitUserRecipe} close={() => setShowModal(false)} />

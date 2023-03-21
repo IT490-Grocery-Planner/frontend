@@ -1,38 +1,62 @@
-import React, {useState} from 'react'
-import axios from "axios" 
+import React, { useMemo, useState, useCallback } from 'react'
 import RecipeCard from '../components/recipes/RecipeCard'
 import RatingModal from '../components/recipes/RatingModal'
+import useApiRequest from '../hooks/useApiRequest'
+import ReqLayout from '../components/commons/ReqLayout'
 
 export default function RecipeLookup() {
   const [keyword, setKeyword] = useState('')
-  const [recipes, setRecipes] = useState([])
+  const [query, setQuery] = useState('')
   const [selectedRecipe, setSelectedRecipe] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
-  const fetchRecipesByKeyword = async () => {
-    const session = JSON.parse(sessionStorage.getItem("session"));
+  const keywordRecipe = useApiRequest('keywordrecipe')
+  const groceryRecipe = useApiRequest('groceryrecipe')
+  const expiredRecipe = useApiRequest('expirerecipe')
 
-    const res = await axios.post("/api/index.php", {"type": "keywordrecipe", "keyword": keyword, "sessionID": session["sessionID"] })
-    console.log(res.data['results'])
-    
-    setRecipes(res.data['results'])
-    return
-  }
-  const fetchRecipesFromGroceries = async (aboutToExpire) => {
-    const session = JSON.parse(sessionStorage.getItem("session"));
-    const type = aboutToExpire ? "expirerecipe" : "groceryrecipe"
-    const res = await axios.post("/api/index.php", {"type": type, "sessionID": session["sessionID"] })
-    console.log(res)
-    
-    setRecipes(res.data)
-    return
-  }
 
+  const fetchRecipes = useCallback(async (query) => {
+    switch (query) {
+      case 'keywordrecipe':
+        await keywordRecipe.doRequest({ "keyword": keyword })
+        break
+      case 'groceryrecipe':
+        await groceryRecipe.doRequest()
+        break
+      case 'expirerecipe':
+        await expiredRecipe.doRequest()
+        break
+      default:
+        break;
+    }
+    setQuery(query)
+
+  }, [keywordRecipe, groceryRecipe, groceryRecipe])
+
+  const recipes = useMemo(() => {
+    switch (query) {
+      case 'keywordrecipe':
+        const baseURL = 'https://spoonacular.com/recipeImages/'
+        return keywordRecipe.response?.data['results'].map(recipe => ({ ...recipe, image: baseURL + recipe.image })) ?? []
+      case 'groceryrecipe':
+        return groceryRecipe.response?.data ?? []
+      case 'expirerecipe':
+        return expiredRecipe.response?.data ?? []
+      default:
+        return [];
+    }
+  }, [query, groceryRecipe.response, expiredRecipe.response, keywordRecipe.response])
+
+  const loading = useMemo(() => (keywordRecipe.loading || groceryRecipe.loading || expiredRecipe.loading),
+    [groceryRecipe.loading, expiredRecipe.loading, keywordRecipe.loading])
+
+  const error = useMemo(() => (keywordRecipe.error ?? groceryRecipe.error ?? expiredRecipe.error),
+    [groceryRecipe.error, expiredRecipe.error, keywordRecipe.error])
 
   const handleOpen = recipe => {
     setSelectedRecipe(recipe);
     setShowModal(true);
-  
+
   };
 
   const handleClose = () => {
@@ -42,26 +66,31 @@ export default function RecipeLookup() {
 
   return (
     <div>
-      <h1>Lookup Recipes</h1>
+
       <RatingModal show={showModal} selection={selectedRecipe} close={handleClose} />
-
-      <div className='input-group'>
-        <input className="form-control" onChange={e => setKeyword(e.target.value)} />
-        <input type="submit" className="btn btn-primary mt-3" value="From Keyword" onClick={fetchRecipesByKeyword} />
+      
+      <h4>Lookup Recipes From:</h4>
+      
+      <div className='input-group my-3'>
+        <div class="input-group-prepend">
+          <button className="btn btn-success" disabled={loading} type='button' onClick={() => fetchRecipes('groceryrecipe')}>All Groceries</button>
+          <button className="btn btn-danger" disabled={loading}  type='button' onClick={() => fetchRecipes('expirerecipe')}>Near-Expired Groceries</button>
+          <button className="btn btn-primary"  disabled={loading} type='button' onClick={() => fetchRecipes('keywordrecipe')}>Keyword</button>
+        </div>
+        <input className="form-control" onChange={e => setKeyword(e.target.value)} placeholder="keyword (default random)" />
       </div>
-      
-      <input type="submit" className="form-control btn btn-success mt-3" value="From Groceries"  onClick={() => fetchRecipesFromGroceries(false)} />
-      <input type="submit" className="form-control btn btn-danger mt-3" value="From Groceries About to Expire"  onClick={() => fetchRecipesFromGroceries(true)} />
 
-      <div className="row mt-4">
-      
-      {recipes.map(recipe => (
-        <div className="col-sm-3 my-1">
-          <RecipeCard recipe={recipe}>
-            <button onClick={handleOpen} class="btn btn-success">Save</button>  
-          </RecipeCard>
-        </div>))}
-      
+      <div className="row">
+        <ReqLayout error={error} loading={loading}>
+          {loading || recipes.map(recipe => (
+            <div className="col-sm-3 my-1">
+              <RecipeCard recipe={recipe}>
+                <div class="d-grid mx-auto">
+                  <button onClick={() => handleOpen(recipe)} class="btn btn-success">Save</button>
+                </div>
+              </RecipeCard>
+            </div>))}
+        </ReqLayout>
       </div>
     </div>
   )

@@ -6,10 +6,10 @@ import Modal from 'react-bootstrap/Modal';
 
 export default function RatingModal({selection, close, show}) {
 
-    const [rating, setRating] = useState(null)
-    const imgUrl = 'https://spoonacular.com/recipeImages/'
+    const [rating, setRating] = useState(1)
+
     const handleSubmit = async () => {
-      const saveData = {...selection, image:imgUrl+selection.image,rating}
+      const saveData = {...selection, rating}
       const session = JSON.parse(sessionStorage.getItem("session"));
       
       const res = await axios.post("/api/index.php", {"type": "saveRecipe", "sessionID": session["sessionID"], "recipe": saveData})

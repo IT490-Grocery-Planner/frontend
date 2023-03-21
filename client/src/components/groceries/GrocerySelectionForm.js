@@ -41,6 +41,8 @@ export default function GrocerySelectionForm({ select }) {
 
     setLookup([])
     setSelection(null)
+    setBuyDate(null)
+    setexpirationDate(null)
     select(finalSelectionData)
 
   }
@@ -66,7 +68,7 @@ export default function GrocerySelectionForm({ select }) {
                   onClick={() => setSelection(item)}>
                   {item['name']}
                   <div class="image-parent">
-                    <img src={imgURL+ item['image']} alt={item['name']} class="img-fluid" />
+                    <img src={imgURL + item['image']} alt={item['name']} class="img-fluid" />
                   </div>
                 </li>
               ))
@@ -81,12 +83,13 @@ export default function GrocerySelectionForm({ select }) {
               </div>
             </div>
             <form onSubmit={handleSubmitSelection}>
-            <label for="buyDate">Buy Date : </label>
-            <label for="expDate">Expiration Date : </label>
-              <div class="input-group mb-2">
-              
+              <div class="mb-2">
+                <label for="buyDate">Buy Date : </label>
                 <input className="form-control" type="date"
-                  onChange={e => setBuyDate(e.target.value)} placeholder='Buy Date' id='buyDate'/>
+                  onChange={e => setBuyDate(e.target.value)} placeholder='Buy Date' id='buyDate' />
+              </div>
+              <div class="mb-2">
+                <label for="expDate">Expiration Date : </label>
                 <input className="form-control" type="date"
                   onChange={e => setexpirationDate(e.target.value)} placeholder='Expiration Date' id='expDate' />
               </div>
