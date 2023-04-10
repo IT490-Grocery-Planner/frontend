@@ -8,7 +8,7 @@ require_once('../rabbit/rabbitMQLib.inc');
 function logerror($type,$error){
  
   $error_log_name = $type.".txt"; // Gets relevant error log file from error type
-  $file_data = $error . file_get_contents($error_log_name); // prepend current error to lo file's current content 
+  $file_data = $error . '\n' . file_get_contents($error_log_name); // prepend current error to lo file's current content 
   file_put_contents($error_log_name, $file_data); // Write new content back to error log
   return json_encode(["message" => "Error Logged"]); 
 }
@@ -32,7 +32,7 @@ function requestProcessor($request)
   return array("returnCode" => '0', 'message'=>"unsupported error type");
 }
 
-$server = new rabbitMQServer("../rabbit/errorRabbitMQ.ini","errorLogging");
+$server = new rabbitMQServer("../rabbit/errorRabbitMQ.ini","errorServer");
 
 echo "Error Logger BEGIN".PHP_EOL;
 $server->process_requests('requestProcessor');

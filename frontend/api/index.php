@@ -4,8 +4,8 @@ require_once('../rabbit/path.inc');
 require_once('../rabbit/get_host_info.inc');
 require_once('../rabbit/rabbitMQLib.inc');
 
-$client = new rabbitMQClient("../rabbit/dbRabbitMQ.ini","appServer");
-$errLogClient = new rabbitMQClient("../rabbit/dbRabbitMQ.ini","errorLogging");
+$client = new rabbitMQClient("apiRabbitMQ.ini","appServer");
+$errLogClient = new rabbitMQClient("../rabbit/errorServerMQ.ini","errorServer");
 
 // Obtain request data from client and decode as json
 $req_body = file_get_contents('php://input');

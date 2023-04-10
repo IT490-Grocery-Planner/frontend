@@ -4,8 +4,8 @@ require_once('../rabbit/path.inc');
 require_once('../rabbit/get_host_info.inc');
 require_once('../rabbit/rabbitMQLib.inc');
 
-$client = new rabbitMQClient("../rabbit/dbRabbitMQ.ini","authServer");
-$errLogClient = new rabbitMQClient("../rabbit/dbRabbitMQ.ini","errorLogging");
+$client = new rabbitMQClient("apiRabbitMQ.ini","authServer");
+$errLogClient = new rabbitMQClient("../rabbit/errorServerMQ.ini","errorServer");
 
 $req_body = file_get_contents('php://input');
 $data = json_decode($req_body, true);
@@ -43,6 +43,7 @@ if (isset($data["type"]) && $data["type"] == 'validateSession'){
             //Send authentication request to DB
             $response = $client->send_request($data);
             $res_obj = json_decode($response, true);
+            //$errLogClient->send_request(['type' => 'Frontenderrors', 'error' => 'Mock Error: frontend is good']);
             if(isset($res_obj['sessionID'])){
                 //Send response back to client
                 echo json_encode($res_obj);
