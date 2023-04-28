@@ -1,0 +1,2 @@
+#!/bin/bash
+cd /home/gc348/git/IT490-Project/client/ && sudo npm run build && sudo rm -rf /home/gc348/git/IT490-Project/frontend/app/ && sudo cp -r -T /home/gc348/git/IT490-Project/client/build /home/gc348/git/IT490-Project/frontend/app/ && sudo chown -R gc348:gc348 /home/gc348/git/IT490-Project/frontend/app/

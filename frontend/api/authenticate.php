@@ -1,5 +1,5 @@
 <?php
-
+#This is a test #2
 require_once('../rabbit/path.inc');
 require_once('../rabbit/get_host_info.inc');
 require_once('../rabbit/rabbitMQLib.inc');
